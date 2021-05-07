@@ -30,4 +30,13 @@ class Stream < ApplicationRecord
   belongs_to :account
 
   friendly_id :name, use: :slugged
+
+  has_many :tickets, dependent: :destroy
+  has_many :users, through: :tickets
+  has_rich_text :body
+  has_one_attached :stream_image
+  validates :name, presence: true
+  validates :price, presence: true
+  validates :stream_date, presence: true
+  validates :account, presence: true
 end
