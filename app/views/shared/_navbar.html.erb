@@ -4,11 +4,17 @@
     <%= link_to "Logout", back_masquerade_path(current_user), class: "text-blue-100 hover:no-underline font-semibold underline" %>
   </div>
 <% end %>
-<nav class="flex flex-wrap items-center justify-between px-4 py-2 text-sm border-b bg-gradient-to-r from-primary-blue to-secondary-purple" data-controller="toggle">
+<% if Rails.env.development? && !current_tenant.nil? %>
+  <p>Current Tenant: <%= current_tenant.name %> | Cuurent Account Admin? <%= current_account_admin? %> | Current Account: <%= current_account.name  %></p>
+<% end %>
+<nav class="flex flex-wrap items-center justify-between px-4 py-2 text-sm bg-purple-900 border-b bg-gradient-to-r" data-controller="toggle">
   <div class="flex items-center flex-shrink-0 mr-6">
     <%= link_to root_path do %>
-      <%# render_svg "logo", styles: "fill-current text-gray-700 hover:text-gray-800" %>
-      <img src="/north-stream-live-logo.png" alt="NorthStream Live" width="200" height="75">
+      <% unless current_account.nil? || current_account.logo.attached? %>
+        <img src="/north-stream-live-logo.png" alt="NorthStream Live" width="200" height="75">
+      <% else %>
+        <%= image_tag current_account.logo.variant(resize_to_limit: [200, 75]) %>
+      <% end %>
       <span class="sr-only"><%= Jumpstart.config.application_name %></span>
     <% end %>
   </div>
