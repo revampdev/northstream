@@ -1,0 +1,51 @@
+<div class="container mx-auto my-8 px-4">
+  <div class="max-w-3xl mx-auto">
+    <div class="flex justify-between items-center mb-4">
+      <h1 class="h3"><%= link_to "Streams", streams_path %> > Stream #<%= @stream.id %></h1>
+      <%= link_to t("edit"), edit_stream_path(@stream), class: "btn btn-link" %>
+    </div>
+
+    <div class="bg-white rounded shadow p-8">
+            <div class="mb-4">
+        <h5>Name</h5>
+        <%= @stream.name %>
+      </div>
+            <div class="mb-4">
+        <h5>Price</h5>
+        <%= @stream.price %>
+      </div>
+            <div class="mb-4">
+        <h5>Slug</h5>
+        <%= @stream.slug %>
+      </div>
+            <div class="mb-4">
+        <h5>Status</h5>
+        <%= @stream.status %>
+      </div>
+            <div class="mb-4">
+        <h5>Stream date</h5>
+        <%= @stream.stream_date %>
+      </div>
+            <div class="mb-4">
+        <h5>Stream key</h5>
+        <%= @stream.stream_key %>
+      </div>
+            <div class="mb-4">
+        <h5>Stream rtmp link</h5>
+        <%= @stream.stream_rtmp_link %>
+      </div>
+            <div class="mb-4">
+        <h5>Live stream</h5>
+        <%= @stream.live_stream_id %>
+      </div>
+            <div class="mb-4">
+        <h5>Playback</h5>
+        <%= @stream.playback_id %>
+      </div>
+            <div class="mb-4">
+        <h5>Account</h5>
+        <%= @stream.account %>
+      </div>
+          </div>
+  </div>
+</div>
