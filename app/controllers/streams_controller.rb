@@ -1,5 +1,10 @@
 class StreamsController < ApplicationController
+  before_action :authenticate_user_with_sign_up!
   before_action :set_stream, only: [:show, :edit, :update, :destroy]
+  before_action :admissible, only: %i[show]
+  before_action :streaming, only: %i[show]
+  before_action :preview_stream, only: %i[show]
+  before_action :require_current_account_admin, only: [:new, :edit, :update, :destroy]
 
   # GET /streams
   def index
@@ -12,6 +17,7 @@ class StreamsController < ApplicationController
 
   # GET /streams/1
   def show
+    @ticket = Ticket.new
   end
 
   # GET /streams/new
@@ -54,6 +60,19 @@ class StreamsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_stream
     @stream = Stream.find(params[:id])
+  end
+
+  def admissible
+    current_stream = set_stream
+    @admissible = current_stream.users.include?(current_user) ? true : false
+  end
+
+  def streaming
+    @streaming = true
+  end
+
+  def preview_stream
+    @preview = true
   end
 
   # Only allow a trusted parameter "white list" through.

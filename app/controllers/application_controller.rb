@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  # set_current_tenant_by_subdomain(:account, :subdomain)
   protect_from_forgery with: :exception
 
   include SetCurrentRequestDetails

@@ -1,66 +1,54 @@
-<div class="container mx-auto my-8 px-4">
-  <div class="flex justify-between items-center mb-4">
+<div class="container px-4 mx-auto my-8">
+  <div class="flex items-center justify-between mb-4">
     <h1 class="h3">Streams</h1>
-
-    <% if @streams.any? %>
+    <% if @streams.any? &&  current_account_admin?  %>
       <%= link_to t("shared.scaffold.new.title", model: "Stream"), new_stream_path, class: "btn btn-primary" %>
     <% end %>
   </div>
-
   <% if @streams.any? %>
     <div class="bg-white rounded shadow table-responsive">
       <table class="table">
         <thead>
           <tr>
-            <th class="p-3 uppercase text-left text-xs"><%= sortable @streams, :name, "Name", class: "text-gray-700" %></th>
-            <th class="p-3 uppercase text-left text-xs"><%= sortable @streams, :price, "Price", class: "text-gray-700" %></th>
-            <th class="p-3 uppercase text-left text-xs"><%= sortable @streams, :slug, "Slug", class: "text-gray-700" %></th>
-            <th class="p-3 uppercase text-left text-xs"><%= sortable @streams, :status, "Status", class: "text-gray-700" %></th>
-            <th class="p-3 uppercase text-left text-xs"><%= sortable @streams, :stream_date, "Stream date", class: "text-gray-700" %></th>
-            <th class="p-3 uppercase text-left text-xs"><%= sortable @streams, :stream_key, "Stream key", class: "text-gray-700" %></th>
-            <th class="p-3 uppercase text-left text-xs"><%= sortable @streams, :stream_rtmp_link, "Stream rtmp link", class: "text-gray-700" %></th>
-            <th class="p-3 uppercase text-left text-xs"><%= sortable @streams, :live_stream_id, "Live stream", class: "text-gray-700" %></th>
-            <th class="p-3 uppercase text-left text-xs"><%= sortable @streams, :playback_id, "Playback", class: "text-gray-700" %></th>
-            <th class="p-3 uppercase text-left text-xs"><%= sortable @streams, :account_id, "Account", class: "text-gray-700" %></th>
-            <th class="p-3 uppercase text-left text-xs text-gray-700 w-20"><%= t("shared.scaffold.actions") %></th>
+            <th class="p-3 text-xs text-left uppercase"><%= sortable @streams, :name, "Name", class: "text-gray-700" %></th>
+            <th class="p-3 text-xs text-left uppercase"><%= sortable @streams, :price, "Price", class: "text-gray-700" %></th>
+            <th class="p-3 text-xs text-left uppercase"><%= sortable @streams, :slug, "Slug", class: "text-gray-700" %></th>
+            <th class="p-3 text-xs text-left uppercase"><%= sortable @streams, :status, "Status", class: "text-gray-700" %></th>
+            <th class="p-3 text-xs text-left uppercase"><%= sortable @streams, :stream_date, "Stream date", class: "text-gray-700" %></th>
+            <th class="w-20 p-3 text-xs text-left text-gray-700 uppercase"><%= t("shared.scaffold.actions") %></th>
           </tr>
         </thead>
-
         <tbody>
-        <% @streams.each do |stream| %>
-          <tr class="group border-t border-gray-400 hover:bg-gray-100">
-                      <td class="p-3"><%= stream.name %></td>
-                      <td class="p-3"><%= stream.price %></td>
-                      <td class="p-3"><%= stream.slug %></td>
-                      <td class="p-3"><%= stream.status %></td>
-                      <td class="p-3"><%= stream.stream_date %></td>
-                      <td class="p-3"><%= stream.stream_key %></td>
-                      <td class="p-3"><%= stream.stream_rtmp_link %></td>
-                      <td class="p-3"><%= stream.live_stream_id %></td>
-                      <td class="p-3"><%= stream.playback_id %></td>
-                      <td class="p-3"><%= stream.account_id %></td>
-          
-            <td>
-              <%= link_to t("shared.scaffold.view"), stream, class: "btn btn-link no-underline" %>
-            </td>
-          </tr>
-        <% end %>
+          <% @streams.each do |stream| %>
+            <tr class="border-t border-gray-400 group hover:bg-gray-100">
+              <td class="p-3"><%= stream.name %></td>
+              <td class="p-3"><%= stream.price %></td>
+              <td class="p-3"><%= stream.slug %></td>
+              <td class="p-3"><%= stream.status %></td>
+              <td class="p-3"><%= stream.stream_date %></td>
+              <td>
+                <%= link_to t("shared.scaffold.view"), stream, class: "btn btn-link no-underline" %>
+              </td>
+            </tr>
+          <% end %>
         </tbody>
       </table>
     </div>
-
     <% if @pagy.pages > 1 %>
-      <div class="text-center my-6">
+      <div class="my-6 text-center">
         <%== pagy_nav(@pagy) %>
       </div>
     <% end %>
-
   <% else %>
-    <div class="bg-white rounded shadow flex flex-col items-center justify-between p-8 lg:flex-row">
+    <div class="flex flex-col items-center justify-between p-8 bg-white rounded shadow lg:flex-row">
       <%= image_tag "empty.svg", class: "mb-4 lg:w-1/2" %>
       <div class="flex-1 text-center">
-        <p class="h3 mb-4">Create your first Stream</p>
-        <%= link_to t("shared.scaffold.new.title", model: "Stream"), new_stream_path, class: "btn btn-primary" %>
+        <% if current_account_admin? %>
+          <p class="mb-4 h3">Create your first Stream</p>
+          <%= link_to t("shared.scaffold.new.title", model: "Stream"), new_stream_path, class: "btn btn-primary" %>
+        <% else %>
+          <p class="mb-4 h3">No Streams Yet!</p>
+        <% end %>
       </div>
     </div>
   <% end %>

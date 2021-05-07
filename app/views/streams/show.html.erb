@@ -1,51 +1,76 @@
-<div class="container mx-auto my-8 px-4">
-  <div class="max-w-3xl mx-auto">
-    <div class="flex justify-between items-center mb-4">
-      <h1 class="h3"><%= link_to "Streams", streams_path %> > Stream #<%= @stream.id %></h1>
-      <%= link_to t("edit"), edit_stream_path(@stream), class: "btn btn-link" %>
+<div id="stream-media" class="hidden">
+  <% if current_user && current_user.admin? %>
+    <p>Preview Stream</p>
+  <% end %>
+  <% if @admissible && @streaming %>
+    <div class="container px-4 mx-auto my-8">
+      <div class="plyr__video-embed" >
+        <video controls crossorigin playsinline poster="<%= url_for(@stream.stream_image) %>"></video>
+      </div>
     </div>
-
-    <div class="bg-white rounded shadow p-8">
-            <div class="mb-4">
-        <h5>Name</h5>
-        <%= @stream.name %>
+  <% end %>
+  <% if @stream.stream_image && !@admissible || !@streaming %>
+    <div class="container px-4 mx-auto my-8">
+      <div class="aspect-w-16 aspect-h-10">
+        <%= image_tag(@stream.stream_image, height: '620px', width: '900px')%>
       </div>
-            <div class="mb-4">
-        <h5>Price</h5>
-        <%= @stream.price %>
-      </div>
-            <div class="mb-4">
-        <h5>Slug</h5>
-        <%= @stream.slug %>
-      </div>
-            <div class="mb-4">
-        <h5>Status</h5>
-        <%= @stream.status %>
-      </div>
-            <div class="mb-4">
-        <h5>Stream date</h5>
-        <%= @stream.stream_date %>
-      </div>
-            <div class="mb-4">
-        <h5>Stream key</h5>
-        <%= @stream.stream_key %>
-      </div>
-            <div class="mb-4">
-        <h5>Stream rtmp link</h5>
-        <%= @stream.stream_rtmp_link %>
-      </div>
-            <div class="mb-4">
-        <h5>Live stream</h5>
-        <%= @stream.live_stream_id %>
-      </div>
-            <div class="mb-4">
-        <h5>Playback</h5>
-        <%= @stream.playback_id %>
-      </div>
-            <div class="mb-4">
-        <h5>Account</h5>
-        <%= @stream.account %>
-      </div>
-          </div>
-  </div>
+    </div>
+  <% end %>
 </div>
+<div class="container mx-auto">
+  <div class="flex items-center justify-between my-6">
+    <h1 class="h3"><%= @stream.name %></h1>
+    <div class="">
+      <% if current_user && !current_account.card_type? %>
+        <%= link_to 'Update Payment Method', subscription_path, class: 'btn btn-primary' %>
+      <% elsif !current_user %>
+        <%= link_to 'Create Account', new_user_registration_path(:stream_id => "#{@stream.id}"), class: 'btn btn-primary'%>
+        <span>or</span>
+        <%= link_to 'Login', new_user_session_path, class: 'btn btn-primary'%>
+      <% elsif @admissible %>
+        <p class="text-lg font-semibold">Hi <%= current_user.first_name %>! Enjoy the show.</p>
+      <% else %>
+        <%= render "tickets/form", ticket: @ticket, stream: @stream.id, price: @stream.price %>
+      <% end %>
+    </div>
+    <%# <%= link_to t("edit"), edit_stream_path(@stream), class: "btn btn-link" %>
+  </div>
+  <div class="p-8 bg-white rounded shadow">
+    <h4 class="h4">Description:</h4>
+    <div class="mx-auto">
+      <%= @stream.body %>
+    </div>
+  </div>
+  <%# <%= link_to 'Purchase Ticket', new_ticket_path, stream: @stream, amount: @stream.price %>
+</div>
+</div>
+<script>
+  document.addEventListener('turbo:load', () => {
+  	const source = 'https://stream.mux.com/01JPz82otC01ou91QiIa95Nc565rn02A00Ll5NbD5ytA79o.m3u8';
+  	const video = document.querySelector('video');
+    const container = document.querySelector('#stream-media')
+    console.log(container)
+  	// For more options see: https://github.com/sampotts/plyr/#options
+  	// captions.update is required for captions to work with hls.js
+  	const player = new Plyr(video, {captions: {active: true, update: true, language: 'en'}});
+  	if (!Hls.isSupported()) {
+  		video.src = source;
+  	} else {
+  		// For more Hls.js options, see https://github.com/dailymotion/hls.js
+  		const hls = new Hls();
+  		hls.loadSource(source);
+  		hls.attachMedia(video);
+  		window.hls = hls;
+      setTimeout(() => container.classList.toggle('hidden'), 1000)
+  		// Handle changing captions
+  		// player.on('languagechange', () => {
+  		// 	// Caption support is still flaky. See: https://github.com/sampotts/plyr/issues/994
+  		// 	setTimeout(() => hls.subtitleTrack = player.currentTrack, 500);
+  		// });
+  
+  	}
+  
+  	// Expose player so it can be used from the console
+  	// window.player = player;
+  });
+</script>
