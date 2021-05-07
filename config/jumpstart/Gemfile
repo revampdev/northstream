@@ -1,0 +1,9 @@
+gem 'stripe'
+gem 'sidekiq'
+
+group :development do
+  gem 'guard'
+  gem 'guard-livereload', '~> 2.5', require: false
+  gem 'rack-livereload'
+  gem 'solargraph-rails', '0.2.0.pre'
+end
