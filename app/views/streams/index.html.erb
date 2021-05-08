@@ -6,39 +6,7 @@
     <% end %>
   </div>
   <% if @streams.any? %>
-    <div class="bg-white rounded shadow table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th class="p-3 text-xs text-left uppercase"><%= sortable @streams, :name, "Name", class: "text-gray-700" %></th>
-            <th class="p-3 text-xs text-left uppercase"><%= sortable @streams, :price, "Price", class: "text-gray-700" %></th>
-            <th class="p-3 text-xs text-left uppercase"><%= sortable @streams, :slug, "Slug", class: "text-gray-700" %></th>
-            <th class="p-3 text-xs text-left uppercase"><%= sortable @streams, :status, "Status", class: "text-gray-700" %></th>
-            <th class="p-3 text-xs text-left uppercase"><%= sortable @streams, :stream_date, "Stream date", class: "text-gray-700" %></th>
-            <th class="w-20 p-3 text-xs text-left text-gray-700 uppercase"><%= t("shared.scaffold.actions") %></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @streams.each do |stream| %>
-            <tr class="border-t border-gray-400 group hover:bg-gray-100">
-              <td class="p-3"><%= stream.name %></td>
-              <td class="p-3"><%= stream.price %></td>
-              <td class="p-3"><%= stream.slug %></td>
-              <td class="p-3"><%= stream.status %></td>
-              <td class="p-3"><%= stream.stream_date %></td>
-              <td>
-                <%= link_to t("shared.scaffold.view"), stream, class: "btn btn-link no-underline" %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-    <% if @pagy.pages > 1 %>
-      <div class="my-6 text-center">
-        <%== pagy_nav(@pagy) %>
-      </div>
-    <% end %>
+    <%= render partial: 'shared/stream_list', locals: {streams: @streams, title: "#{current_user.first_name} Purchased Streams", show_sort: false} %>
   <% else %>
     <div class="flex flex-col items-center justify-between p-8 bg-white rounded shadow lg:flex-row">
       <%= image_tag "empty.svg", class: "mb-4 lg:w-1/2" %>

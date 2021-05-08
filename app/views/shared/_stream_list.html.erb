@@ -1,0 +1,30 @@
+<div class="container px-4 mx-auto my-8">
+  <div class="flex items-center justify-between my-4">
+    <h2 class="h2"><%= title %></h2>
+  </div>
+  <% if streams.any? %>
+    <% if show_sort %>
+      <div class="flex my-4">
+        <button class="border border-indigo-700 btn"><%= sortable streams, :price, "Sort By Price", class: "text-indigo-700" %></button>
+        <button class="mx-6 border border-indigo-700 btn"><%= sortable streams, :stream_date, "Sort By Date", class: "text-indigo-700" %></button>
+      </div>
+    <% end %>
+    <%= render partial: 'shared/stream_card', locals:{stream_list: streams} %>
+    <% if @pagy.pages > 1 %>
+      <div class="my-6 text-center">
+        <%== pagy_nav(@pagy) %>
+      </div>
+    <% end %>
+  <% else %>
+    <% if current_user %>
+      <p class="mb-4 h3">Check back soon for new live streams!</p>
+    <% else %>
+      <div class="flex flex-col items-center justify-between p-8 bg-white rounded shadow lg:flex-row">
+        <%= image_tag "empty.svg", class: "mb-4 lg:w-1/2" %>
+        <div class="flex-1 text-center">
+          <p class="mb-4 h3">Check back soon for new live streams!</p>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

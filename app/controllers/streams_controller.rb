@@ -32,9 +32,10 @@ class StreamsController < ApplicationController
   # POST /streams
   def create
     @stream = Stream.new(stream_params)
-
+    @stream.account = current_account
     if @stream.save
       redirect_to @stream, notice: "Stream was successfully created."
+      CreateLiveStreamJob.perform_later(@stream)
     else
       render :new, status: :unprocessable_entity
     end
@@ -59,7 +60,7 @@ class StreamsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_stream
-    @stream = Stream.find(params[:id])
+    @stream = Stream.friendly.find(params[:id])
   end
 
   def admissible
