@@ -4,6 +4,8 @@
     <title>
       <% if content_for?(:title) %>
         <%= yield :title %> |
+      <% else %>
+        <%= current_account.name unless current_account.nil? %>
       <% end %>
       <%= Jumpstart.config.application_name %>
     </title>

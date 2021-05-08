@@ -10,7 +10,7 @@
 <nav class="flex flex-wrap items-center justify-between px-4 py-2 text-sm bg-purple-900 border-b bg-gradient-to-r" data-controller="toggle">
   <div class="flex items-center flex-shrink-0 mr-6">
     <%= link_to root_path do %>
-      <% unless current_account.nil? || current_account.logo.attached? %>
+      <% if current_account.nil? || !current_account.logo.attached? %>
         <img src="/north-stream-live-logo.png" alt="NorthStream Live" width="200" height="75">
       <% else %>
         <%= image_tag current_account.logo.variant(resize_to_limit: [200, 75]) %>
