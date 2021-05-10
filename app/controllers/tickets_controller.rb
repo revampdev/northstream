@@ -29,7 +29,7 @@ class TicketsController < ApplicationController
     @ticket.user = current_user
     loop do
       @ticket.token = SecureRandom.hex(10)
-      break unless Ticket.where(token: @ticket.token).exist?
+      break unless Ticket.where(token: @ticket.token).exists?
     end
     if @ticket.save
       redirect_to @ticket, notice: "Ticket was successfully created."

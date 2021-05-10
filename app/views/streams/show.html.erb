@@ -1,18 +1,20 @@
 <div id="stream-media" class="hidden">
   <% if current_user && current_user.admin? %>
-    <p>Preview Stream</p>
+    <div class="container flex px-4 mx-auto my-8">
+      <p> Stream Status: <code><%= @stream.status %> </code> | Stream Key: <code> <%= @stream.stream_key %></code> | RTMP Link: <code><%= @stream.stream_rtmp_link %></code></p>
+    </div>
   <% end %>
-  <% if @admissible && @streaming %>
+  <% if @admissible %>
     <div class="container px-4 mx-auto my-8">
       <div class="plyr__video-embed" >
         <video controls crossorigin playsinline poster="<%= url_for(@stream.stream_image) %>"></video>
       </div>
     </div>
   <% end %>
-  <% if @stream.stream_image && !@admissible || !@streaming %>
+  <% if @stream.stream_image && !@admissible %>
     <div class="container px-4 mx-auto my-8">
       <div class="aspect-w-16 aspect-h-10">
-        <%# image_tag(@stream.stream_image, height: '620px', width: '900px')%>
+        <%= image_tag(@stream.stream_image, height: '620px', width: '900px')%>
       </div>
     </div>
   <% end %>
@@ -41,6 +43,9 @@
       <%= @stream.body %>
     </div>
   </div>
+  <% if current_account_admin? %>
+    <%= link_to 'Edit Stream', edit_stream_path(@stream) %>
+  <% end %>
   <%# <%= link_to 'Purchase Ticket', new_ticket_path, stream: @stream, amount: @stream.price %>
 </div>
 </div>
@@ -49,7 +54,7 @@
   	const source = 'https://stream.mux.com/01JPz82otC01ou91QiIa95Nc565rn02A00Ll5NbD5ytA79o.m3u8';
   	const video = document.querySelector('video');
     const container = document.querySelector('#stream-media')
-    console.log(container)
+  
   	// For more options see: https://github.com/sampotts/plyr/#options
   	// captions.update is required for captions to work with hls.js
   	const player = new Plyr(video, {captions: {active: true, update: true, language: 'en'}});
@@ -61,7 +66,7 @@
   		hls.loadSource(source);
   		hls.attachMedia(video);
   		window.hls = hls;
-      setTimeout(() => container.classList.toggle('hidden'), 1000)
+      setTimeout(() => container.classList.toggle('hidden'), 500)
   		// Handle changing captions
   		// player.on('languagechange', () => {
   		// 	// Caption support is still flaky. See: https://github.com/sampotts/plyr/issues/994

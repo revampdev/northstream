@@ -2,16 +2,15 @@ class StreamsController < ApplicationController
   before_action :authenticate_user_with_sign_up!
   before_action :set_stream, only: [:show, :edit, :update, :destroy]
   before_action :admissible, only: %i[show]
-  before_action :streaming, only: %i[show]
-  before_action :preview_stream, only: %i[show]
   before_action :require_current_account_admin, only: [:new, :edit, :update, :destroy]
 
   # GET /streams
   def index
     @pagy, @streams = pagy(Stream.friendly.sort_by_params(params[:sort], sort_direction))
-
+    @purchased = Stream.friendly.select { |stream| stream.users.include?(current_user) }
     # We explicitly load the records to avoid triggering multiple DB calls in the views when checking if records exist and iterating over them.
     # Calling @streams.any? in the view will use the loaded records to check existence instead of making an extra DB call.
+
     @streams.load
   end
 
@@ -33,6 +32,7 @@ class StreamsController < ApplicationController
   def create
     @stream = Stream.new(stream_params)
     @stream.account = current_account
+    @stream.stream_rtmp_link = "rtmp://global-live.mux.com:5222/app"
     if @stream.save
       redirect_to @stream, notice: "Stream was successfully created."
       CreateLiveStreamJob.perform_later(@stream)
@@ -68,16 +68,8 @@ class StreamsController < ApplicationController
     @admissible = current_stream.users.include?(current_user) ? true : false
   end
 
-  def streaming
-    @streaming = true
-  end
-
-  def preview_stream
-    @preview = true
-  end
-
   # Only allow a trusted parameter "white list" through.
   def stream_params
-    params.require(:stream).permit(:name, :price, :slug, :status, :stream_date, :stream_key, :stream_rtmp_link, :live_stream_id, :playback_id, :account_id)
+    params.require(:stream).permit(:name, :price, :stream_date, :body, :stream_image)
   end
 end

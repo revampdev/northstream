@@ -5,8 +5,11 @@
       <%= link_to t("shared.scaffold.new.title", model: "Stream"), new_stream_path, class: "btn btn-primary" %>
     <% end %>
   </div>
+  <% unless @purchased.nil? %>
+    <%= render partial: 'shared/stream_list', locals: {streams: @purchased, title: "#{current_user.first_name} Purchased Streams", show_sort: false} %>
+  <% end %>
   <% if @streams.any? %>
-    <%= render partial: 'shared/stream_list', locals: {streams: @streams, title: "#{current_user.first_name} Purchased Streams", show_sort: false} %>
+    <%= render partial: 'shared/stream_list', locals: {streams: @streams, title: "Available  Streams", show_sort: true} %>
   <% else %>
     <div class="flex flex-col items-center justify-between p-8 bg-white rounded shadow lg:flex-row">
       <%= image_tag "empty.svg", class: "mb-4 lg:w-1/2" %>
