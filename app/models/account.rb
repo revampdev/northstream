@@ -46,6 +46,7 @@ class Account < ApplicationRecord
 
   has_noticed_notifications
   has_one_attached :avatar
+  has_one_attached :logo
 
   validates :name, presence: true
   validates :domain, exclusion: {in: RESERVED_DOMAINS, message: :reserved}

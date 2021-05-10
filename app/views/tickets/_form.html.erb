@@ -1,0 +1,9 @@
+  <%= form_with(model: ticket, stream: stream, price: price) do |form| %>
+  <%= render "shared/error_messages", resource: form.object %>
+  <div class="flex items-center">
+    <p class="mx-6 text-lg font-semibold">Price: <%= number_to_currency(price) %></p>
+    <%= form.hidden_field :amount, class: "form-control", value: price %>
+    <%= form.hidden_field :stream_id, value: stream %>
+    <%= form.button "Purchase a Ticket",  class: "btn btn-primary", data: {confirm: "You will be charged $#{price} on your saved card. Are you sure you want to proceed? All sales are final."} %>
+  </div>
+<% end %>

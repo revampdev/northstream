@@ -90,3 +90,8 @@ gem "whenever", require: false
 if File.exist?("config/jumpstart/Gemfile")
   eval_gemfile "config/jumpstart/Gemfile"
 end
+
+# NorthStream Specific Gems
+gem "mux_ruby"
+gem "friendly_id", "~> 5.4"
+gem 'aws-sdk-s3', '~> 1.87'

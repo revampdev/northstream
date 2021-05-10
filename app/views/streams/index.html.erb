@@ -1,0 +1,26 @@
+<div class="container px-4 mx-auto my-8">
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="h3">Streams</h1>
+    <% if @streams.any? &&  current_account_admin?  %>
+      <%= link_to t("shared.scaffold.new.title", model: "Stream"), new_stream_path, class: "btn btn-primary" %>
+    <% end %>
+  </div>
+  <% unless @purchased.nil? %>
+    <%= render partial: 'shared/stream_list', locals: {streams: @purchased, title: "#{current_user.first_name} Purchased Streams", show_sort: false} %>
+  <% end %>
+  <% if @streams.any? %>
+    <%= render partial: 'shared/stream_list', locals: {streams: @streams, title: "Available  Streams", show_sort: true} %>
+  <% else %>
+    <div class="flex flex-col items-center justify-between p-8 bg-white rounded shadow lg:flex-row">
+      <%= image_tag "empty.svg", class: "mb-4 lg:w-1/2" %>
+      <div class="flex-1 text-center">
+        <% if current_account_admin? %>
+          <p class="mb-4 h3">Create your first Stream</p>
+          <%= link_to t("shared.scaffold.new.title", model: "Stream"), new_stream_path, class: "btn btn-primary" %>
+        <% else %>
+          <p class="mb-4 h3">No Streams Yet!</p>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

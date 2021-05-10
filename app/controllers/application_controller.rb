@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  # before_action :set_current_tenant_by_subdomain(:account, :subdomain)
 
   include SetCurrentRequestDetails
   include SetLocale
@@ -17,6 +18,9 @@ class ApplicationController < ActionController::Base
   before_action :masquerade_user!
 
   protected
+
+  def get_current_tenant
+  end
 
   # To add extra fields to Devise registration, add the attribute names to `extra_keys`
   def configure_permitted_parameters
