@@ -1,12 +1,12 @@
 <div id="stream-media" class="hidden">
   <% if current_user && current_user.admin? %>
     <div class="container flex px-4 mx-auto my-8">
-      <p> Stream Status: <code><%= @stream.status %> </code> | Stream Key: <code> <%= @stream.stream_key %></code> | RTMP Link: <code><%= @stream.stream_rtmp_link %></code></p>
+      <p> Stream Status: <code><%= @stream.status %> </code> | Stream Key: <code> <%= @stream.stream_key %></code> | RTMP Link: <code><%= @stream.stream_rtmp_link %></code> | Playback ID: <code><%= @stream.playback_id %></code></p>
     </div>
   <% end %>
   <% if @admissible %>
-    <div class="container px-4 mx-auto my-8">
-      <div class="plyr__video-embed" >
+    <div class="container px-4 mx-auto my-20">
+      <div class="plyr__video-embed" id="video" data-playback="<%= @stream.playback_id %>">
         <video controls crossorigin playsinline poster="<%= url_for(@stream.stream_image) %>"></video>
       </div>
     </div>
@@ -49,33 +49,37 @@
   <%# <%= link_to 'Purchase Ticket', new_ticket_path, stream: @stream, amount: @stream.price %>
 </div>
 </div>
-<script>
-  document.addEventListener('turbo:load', () => {
-  	const source = 'https://stream.mux.com/01JPz82otC01ou91QiIa95Nc565rn02A00Ll5NbD5ytA79o.m3u8';
-  	const video = document.querySelector('video');
-    const container = document.querySelector('#stream-media')
-  
-  	// For more options see: https://github.com/sampotts/plyr/#options
-  	// captions.update is required for captions to work with hls.js
-  	const player = new Plyr(video, {captions: {active: true, update: true, language: 'en'}});
-  	if (!Hls.isSupported()) {
-  		video.src = source;
-  	} else {
-  		// For more Hls.js options, see https://github.com/dailymotion/hls.js
-  		const hls = new Hls();
-  		hls.loadSource(source);
-  		hls.attachMedia(video);
-  		window.hls = hls;
-      setTimeout(() => container.classList.toggle('hidden'), 500)
-  		// Handle changing captions
-  		// player.on('languagechange', () => {
-  		// 	// Caption support is still flaky. See: https://github.com/sampotts/plyr/issues/994
-  		// 	setTimeout(() => hls.subtitleTrack = player.currentTrack, 500);
-  		// });
-  
-  	}
-  
-  	// Expose player so it can be used from the console
-  	// window.player = player;
-  });
-</script>
+<% if @admissible %>
+  <script>
+    document.addEventListener('turbo:load', () => {
+      const videoContainer = document.querySelector('#video')
+      const playback = videoContainer.dataset.playback
+    	const source = `https://stream.mux.com/${playback}.m3u8`;
+    	const video = document.querySelector('video');
+      const container = document.querySelector('#stream-media')
+    
+    	// For more options see: https://github.com/sampotts/plyr/#options
+    	// captions.update is required for captions to work with hls.js
+    	const player = new Plyr(video, {captions: {active: true, update: true, language: 'en'}});
+    	if (!Hls.isSupported()) {
+    		video.src = source;
+    	} else {
+    		// For more Hls.js options, see https://github.com/dailymotion/hls.js
+    		const hls = new Hls();
+    		hls.loadSource(source);
+    		hls.attachMedia(video);
+    		window.hls = hls;
+        setTimeout(() => container.classList.toggle('hidden'), 500)
+    		// Handle changing captions
+    		// player.on('languagechange', () => {
+    		// 	// Caption support is still flaky. See: https://github.com/sampotts/plyr/issues/994
+    		// 	setTimeout(() => hls.subtitleTrack = player.currentTrack, 500);
+    		// });
+    
+    	}
+    
+    	// Expose player so it can be used from the console
+    	// window.player = player;
+    });
+  </script>
+<% end %>
