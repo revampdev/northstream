@@ -2,7 +2,7 @@ class SubscriptionsController < ApplicationController
   before_action :require_payments_enabled
   before_action :authenticate_user_with_sign_up!
   before_action :require_account
-  before_action :require_current_account_admin, except: [:show]
+  # before_action :require_current_account_admin, except: [:show]
   before_action :set_plan, only: [:new]
   before_action :set_subscription, only: [:edit, :update]
 

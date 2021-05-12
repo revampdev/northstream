@@ -1,6 +1,5 @@
 <% content_for :head, tag(:meta, name: "stripe-key", content: Pay::Stripe.public_key) %>
-
-<%= form_with model: current_account,
+<%= form_with model: current_user.personal_account,
   url: local_assigns.fetch(:url, card_path),
   class: "mt-4",
   data: {
@@ -10,18 +9,15 @@
     stripe_target: "form",
     toggle_target: "toggleable",
   } do |f| %>
-
   <div class="form-group">
     <label for="card-element"><%= t(".credit_or_debit_card") %></label>
     <div data-stripe-target="card" class="form-control"></div>
-    <div data-stripe-target="error" role="alert" class="text-red-600 text-sm mt-2"></div>
+    <div data-stripe-target="error" role="alert" class="mt-2 text-sm text-red-600"></div>
   </div>
-
   <div class="form-group">
     <%= f.label :name_on_card %>
     <%= f.text_field :name_on_card, name: nil, class: "form-control", placeholder: true, required: true, data: { stripe_target: "name" } %>
   </div>
-
   <%= f.hidden_field :processor, value: :stripe %>
   <%= f.button t(".button"), id: 'submit-button', class: "btn btn-primary", data: { action: "click->stripe#submit", disable_with: disable_with(t("processing")) } %>
 <% end %>

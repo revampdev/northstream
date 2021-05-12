@@ -1,4 +1,4 @@
-<%= form_with model: current_account,
+<%= form_with model: current_user.personal_account,
   url: local_assigns.fetch(:url, card_path),
   class: "hidden mt-4",
   data: {
@@ -8,9 +8,7 @@
     braintree_target: "form",
     toggle_target: "toggleable",
   } do |f| %>
-
   <%= tag.div nil, data: { braintree_target: "dropin" } %>
-
   <%= f.hidden_field :processor, value: :braintree %>
   <%= f.button t(".button"), class: "btn btn-primary", data: { action: "click->braintree#submit", disable_with: disable_with(t(".processing")) } %>
 <% end %>

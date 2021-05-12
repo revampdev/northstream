@@ -23,7 +23,7 @@
   <div class="flex items-center justify-between my-6">
     <h1 class="h3"><%= @stream.name %></h1>
     <div class="">
-      <% if current_user && !current_account.card_type? %>
+      <% if current_user && !current_user.personal_account.card_type? %>
         <%= link_to 'Update Payment Method', subscription_path, class: 'btn btn-primary' %>
       <% elsif !current_user %>
         <%= link_to 'Create Account', new_user_registration_path(:stream_id => "#{@stream.id}"), class: 'btn btn-primary'%>

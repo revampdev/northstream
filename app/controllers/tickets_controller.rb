@@ -32,6 +32,7 @@ class TicketsController < ApplicationController
       break unless Ticket.where(token: @ticket.token).exists?
     end
     if @ticket.save
+      current_user.personal_account.charge(dollars_to_cents(@ticket.amount))
       redirect_to @ticket, notice: "Ticket was successfully created."
     else
       render :new, status: :unprocessable_entity
@@ -58,6 +59,11 @@ class TicketsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_ticket
     @ticket = Ticket.find(params[:id])
+  end
+
+  # Conver dollars to pennies for Stripe
+  def dollars_to_cents(amount)
+    (100 * amount.to_r).to_i
   end
 
   # Only allow a trusted parameter "white list" through.

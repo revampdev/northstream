@@ -3,13 +3,13 @@ class CardsController < ApplicationController
 
   def edit
     if Jumpstart.config.stripe?
-      @setup_intent = current_account.processor&.stripe? ? current_account.payment_processor.create_setup_intent : Stripe::SetupIntent.create
+      @setup_intent = current_user.personal_account.processor&.stripe? ? current_user.personal_account.payment_processor.create_setup_intent : Stripe::SetupIntent.create
     end
   end
 
   def update
-    current_account.assign_attributes(processor: processor)
-    current_account.update_card(token)
+    current_user.personal_account.assign_attributes(processor: processor)
+    current_user.personal_account.update_card(token)
     redirect_to subscription_path, notice: t(".updated")
   end
 

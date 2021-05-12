@@ -1,4 +1,4 @@
-<%= form_with model: current_account,
+<%= form_with model: current_user.personal_account,
   url: local_assigns.fetch(:url, card_path),
   data: {
     controller: "paddle",
@@ -6,9 +6,6 @@
     paddle_action: "update-payment-details",
     paddle_update_url: current_account.subscription.try(:paddle_update_url)
   } do |f| %>
-
   <div class="paddle-checkout"></div>
-
   <%= f.hidden_field :processor, value: :paddle %>
-
 <% end %>
