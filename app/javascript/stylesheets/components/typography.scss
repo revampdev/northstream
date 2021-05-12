@@ -48,7 +48,7 @@ h5,
 
 .policy {
   p {
-    @apply mb-4 text-xl leading-normal text-gray-700;
+    @apply mb-4 text-base leading-normal text-gray-700;
   }
 
   ul {
@@ -58,5 +58,8 @@ h5,
 
   li {
     @apply mb-2;
+  }
+  hr {
+    @apply mb-4;
   }
 }
