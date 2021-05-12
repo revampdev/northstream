@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  before_action :require_current_account_admin, only: [:edit, :update, :destroy]
   before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   # GET /products
@@ -17,6 +18,7 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
+    @product_stream_id = params[:stream]
   end
 
   # GET /products/1/edit
@@ -26,7 +28,6 @@ class ProductsController < ApplicationController
   # POST /products
   def create
     @product = Product.new(product_params)
-
     if @product.save
       redirect_to @product, notice: "Product was successfully created."
     else
