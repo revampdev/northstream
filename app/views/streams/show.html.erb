@@ -5,7 +5,7 @@
     </div>
   <% end %>
   <% if @admissible %>
-    <div class="container px-4 mx-auto my-20">
+    <div class="container px-4 mx-auto ">
       <div class="plyr__video-embed" id="video" data-playback="<%= @stream.playback_id %>">
         <video controls crossorigin playsinline poster="<%= url_for(@stream.stream_image) %>"></video>
       </div>
