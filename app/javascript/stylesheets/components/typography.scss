@@ -4,13 +4,11 @@
   @apply font-black leading-tight tracking-tight;
 }
 
-
 h1,
 .h1 {
   font-size: 2.5rem; // 48px
 
   @apply font-black leading-tight tracking-tight;
-
 }
 
 h2,
@@ -31,7 +29,7 @@ h4,
 .h4 {
   font-size: 1.125rem; // 18px
 
-  @apply font-black leading-normal;
+  @apply font-black leading-normal mb-2;
 }
 
 h5,
@@ -45,5 +43,20 @@ h5,
   &:hover,
   &:focus {
     @apply text-primary-600;
+  }
+}
+
+.policy {
+  p {
+    @apply mb-4 text-xl leading-normal text-gray-700;
+  }
+
+  ul {
+    list-style: none;
+    @apply px-12 mb-4;
+  }
+
+  li {
+    @apply mb-2;
   }
 }
