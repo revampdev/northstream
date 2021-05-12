@@ -1,0 +1,27 @@
+<div class="container mx-auto my-8 px-4">
+  <div class="max-w-3xl mx-auto">
+    <div class="flex justify-between items-center mb-4">
+      <h1 class="h3"><%= link_to "Line Items", line_items_path %> > Line Item #<%= @line_item.id %></h1>
+      <%= link_to t("edit"), edit_line_item_path(@line_item), class: "btn btn-link" %>
+    </div>
+
+    <div class="bg-white rounded shadow p-8">
+            <div class="mb-4">
+        <h5>Order</h5>
+        <%= @line_item.order %>
+      </div>
+            <div class="mb-4">
+        <h5>Name</h5>
+        <%= @line_item.name %>
+      </div>
+            <div class="mb-4">
+        <h5>Description</h5>
+        <%= @line_item.description %>
+      </div>
+            <div class="mb-4">
+        <h5>Amount</h5>
+        <%= @line_item.amount %>
+      </div>
+          </div>
+  </div>
+</div>
