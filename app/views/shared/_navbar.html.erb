@@ -7,7 +7,7 @@
 <% if Rails.env.development? && !current_tenant.nil? %>
   <p>Current Tenant: <%= current_tenant.name %> | Cuurent Account Admin? <%= current_account_admin? %> | Current Account: <%= current_account.name  %> | Current Personal Account: <%= current_user.personal_account.name unless current_user.nil?%></p>
 <% end %>
-<nav class="flex flex-wrap items-center justify-between px-4 py-2 text-sm bg-white border-b" data-controller="toggle">
+<nav class="flex flex-wrap items-center justify-between px-4 py-2 text-sm bg-blue-900 border-b bg-gradient-to-r" data-controller="toggle">
   <div class="flex items-center flex-shrink-0 mr-6">
     <%= link_to root_path do %>
       <% if current_tenant.nil? || !current_tenant.logo.attached? %>
