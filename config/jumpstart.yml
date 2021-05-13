@@ -1,12 +1,12 @@
 --- !ruby/object:Jumpstart::Configuration
 application_name: NorthStream Live
 business_name: NorthStream Productions
-domain: example.com
+domain: nortstream.live
 support_email: northstream@revamp.dev
-default_from_email: Jumpstart <support@example.com>
+default_from_email: NorthStream Live <info@northstream.live>
 business_address: ''
 background_job_processor: sidekiq
-email_provider: ''
+email_provider: mailgun
 personal_accounts: true
 livereload: true
 solargraph: true

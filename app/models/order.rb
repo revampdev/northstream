@@ -26,7 +26,7 @@ class Order < ApplicationRecord
         allowed_countries: ["US"]
       },
       customer_email: user.email,
-      shipping_rates: ["shr_1Iqdp7DFjH2WLcaLRDqT1hMP"],
+      shipping_rates: ["shr_1IqjffDFjH2WLcaL5S19cGKf"],
       client_reference_id: user.id,
       line_items: [
         {
@@ -37,7 +37,7 @@ class Order < ApplicationRecord
               name: order.line_items.first.name
             }
           },
-          tax_rates: ["txr_1IqdqrDFjH2WLcaLoIDvVhVg"],
+          tax_rates: ["txr_1IqjehDFjH2WLcaLCxQUAJ23"],
           quantity: order.line_items.first.quantity
         }
       ],
