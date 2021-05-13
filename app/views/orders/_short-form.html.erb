@@ -1,0 +1,12 @@
+<%= form_with(model: @order) do |form| %>
+  <%= render "shared/error_messages", resource: form.object %>
+  <%= form.hidden_field :account_id, value: current_user.personal_account.id %>
+  <%= form.hidden_field :amount, value: amount %>
+  <%= form.hidden_field :product_name, value: name %>
+  <%= form.hidden_field :stream_slug, value: slug %>
+  <div class="flex align-middle">
+    <%= form.label :qyantity, "Qty" %>
+    <%= form.select :quantity, [1,2,3,4], class: "block mx-4"%>
+    <%= form.button name, class: "btn btn-primary mx-4" %>
+  </div>
+<% end %>

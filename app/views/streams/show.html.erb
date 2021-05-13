@@ -10,7 +10,7 @@
   <% end %>
   <% if @admissible %>
     <div class="container px-4 mx-auto ">
-      <div class="plyr__video-embed" id="video" data-playback="<%= @stream.playback_id %>">
+      <div class="plyr__video-embed" style="height: auto; padding-bottom: 0px" id="video" data-playback="<%= @stream.playback_id %>">
         <video controls crossorigin playsinline poster="<%= url_for(@stream.stream_image) %>"></video>
       </div>
     </div>
@@ -37,7 +37,7 @@
         <p class="text-lg font-semibold">Hi <%= current_user.first_name %>! Enjoy the show.</p>
         <% unless @stream.products.nil? %>
           <% @stream.products.each do |product| %>
-            <%= product.name %>
+            <%= render 'orders/short-form', name: product.name, amount: product.amount, slug: @stream.slug %>
           <% end %>
         <% end %>
       <% else %>

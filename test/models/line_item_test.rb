@@ -6,6 +6,7 @@
 #  amount      :integer
 #  description :string
 #  name        :string
+#  quantity    :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  order_id    :bigint           not null

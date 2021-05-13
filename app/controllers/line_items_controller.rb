@@ -58,6 +58,6 @@ class LineItemsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def line_item_params
-    params.require(:line_item).permit(:order_id, :name, :description, :amount)
+    params.require(:line_item).permit(:name, :description, :amount)
   end
 end

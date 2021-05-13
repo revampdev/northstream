@@ -1,0 +1,8 @@
+<div id="session" data-session="<%= @checkout_id %>""></div>
+<div id="key" data-key="<%= @public_key%>"></div>
+<script>
+  const session = document.querySelector('#session').dataset.session
+  const key = document.querySelector('#key').dataset.key
+  const stripe = Stripe(key)
+  stripe.redirectToCheckout({sessionId: session})
+</script>

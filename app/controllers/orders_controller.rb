@@ -25,10 +25,15 @@ class OrdersController < ApplicationController
 
   # POST /orders
   def create
-    @order = Order.new(order_params)
-
+    @order = Order.new
+    @order.account_id = params[:order][:account_id]
+    line_items = LineItem.new({name: params[:order][:product_name], amount: params[:order][:amount], quantity: params[:order][:quantity]})
     if @order.save
-      redirect_to @order, notice: "Order was successfully created."
+      domain = current_tenant.domain.empty? ? current_tenant.subdomain : current_tenant.domain
+      line_items.order_id = @order.id
+      line_items.save
+      @checkout = Order.create_session(@order, domain, params[:order][:stream_slug], current_user)
+      redirect_to checkout_path({session_id: @checkout.id})
     else
       render :new, status: :unprocessable_entity
     end
@@ -58,6 +63,6 @@ class OrdersController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def order_params
-    params.require(:order).permit(:account_id, :quantity)
+    params.require(:order).permit(:account_id, :amount, :product_name, :quantity, :stream_slug)
   end
 end
