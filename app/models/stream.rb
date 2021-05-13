@@ -33,6 +33,7 @@ class Stream < ApplicationRecord
 
   has_many :tickets, dependent: :destroy
   has_many :users, through: :tickets
+  has_many :products, dependent: :destroy
   has_rich_text :body
   has_one_attached :stream_image
   validates :name, presence: true

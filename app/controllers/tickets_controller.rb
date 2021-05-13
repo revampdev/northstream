@@ -33,7 +33,7 @@ class TicketsController < ApplicationController
     end
     if @ticket.save
       current_user.personal_account.charge(dollars_to_cents(@ticket.amount))
-      redirect_to @ticket, notice: "Ticket was successfully created."
+      redirect_to @ticket.stream, notice: "Ticket was successfully created."
     else
       render :new, status: :unprocessable_entity
     end

@@ -2,11 +2,15 @@
   <% if current_user && current_user.admin? %>
     <div class="container flex px-4 mx-auto my-8">
       <p> Stream Status: <code><%= @stream.status %> </code> | Stream Key: <code> <%= @stream.stream_key %></code> | RTMP Link: <code><%= @stream.stream_rtmp_link %></code> | Playback ID: <code><%= @stream.playback_id %></code></p>
+      <% if current_account_admin? %>
+        <%= link_to 'Edit Stream', edit_stream_path(@stream) %>
+        <%= link_to 'Add Products', new_product_path({stream: @stream.id}) %>
+      <% end %>
     </div>
   <% end %>
   <% if @admissible %>
-    <div class="container px-4 mx-auto my-20">
-      <div class="plyr__video-embed" id="video" data-playback="<%= @stream.playback_id %>">
+    <div class="container px-4 mx-auto ">
+      <div class="plyr__video-embed" style="height: auto; padding-bottom: 0px" id="video" data-playback="<%= @stream.playback_id %>">
         <video controls crossorigin playsinline poster="<%= url_for(@stream.stream_image) %>"></video>
       </div>
     </div>
@@ -31,6 +35,11 @@
         <%= link_to 'Login', new_user_session_path, class: 'btn btn-primary'%>
       <% elsif @admissible %>
         <p class="text-lg font-semibold">Hi <%= current_user.first_name %>! Enjoy the show.</p>
+        <% unless @stream.products.nil? %>
+          <% @stream.products.each do |product| %>
+            <%= render 'orders/short-form', name: product.name, amount: product.amount, slug: @stream.slug %>
+          <% end %>
+        <% end %>
       <% else %>
         <%= render "tickets/form", ticket: @ticket, stream: @stream.id, price: @stream.price %>
       <% end %>
@@ -43,9 +52,6 @@
       <%= @stream.body %>
     </div>
   </div>
-  <% if current_account_admin? %>
-    <%= link_to 'Edit Stream', edit_stream_path(@stream) %>
-  <% end %>
   <%# <%= link_to 'Purchase Ticket', new_ticket_path, stream: @stream, amount: @stream.price %>
 </div>
 </div>

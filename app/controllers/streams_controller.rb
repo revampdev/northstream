@@ -17,6 +17,7 @@ class StreamsController < ApplicationController
   # GET /streams/1
   def show
     @ticket = Ticket.new
+    @order = Order.new
   end
 
   # GET /streams/new

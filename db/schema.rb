@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_07_150831) do
+ActiveRecord::Schema.define(version: 2021_05_13_131420) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,6 +125,17 @@ ActiveRecord::Schema.define(version: 2021_05_07_150831) do
     t.index ["user_id"], name: "index_api_tokens_on_user_id"
   end
 
+  create_table "line_items", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.string "name"
+    t.string "description"
+    t.integer "amount"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "quantity"
+    t.index ["order_id"], name: "index_line_items_on_order_id"
+  end
+
   create_table "notification_tokens", force: :cascade do |t|
     t.bigint "user_id"
     t.string "token", null: false
@@ -146,6 +157,13 @@ ActiveRecord::Schema.define(version: 2021_05_07_150831) do
     t.datetime "interacted_at"
     t.index ["account_id"], name: "index_notifications_on_account_id"
     t.index ["recipient_type", "recipient_id"], name: "index_notifications_on_recipient_type_and_recipient_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_orders_on_account_id"
   end
 
   create_table "pay_charges", force: :cascade do |t|
@@ -190,6 +208,15 @@ ActiveRecord::Schema.define(version: 2021_05_07_150831) do
     t.datetime "updated_at", null: false
     t.integer "trial_period_days", default: 0
     t.boolean "hidden"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.integer "amount"
+    t.bigint "stream_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["stream_id"], name: "index_products_on_stream_id"
   end
 
   create_table "streams", force: :cascade do |t|
@@ -284,6 +311,9 @@ ActiveRecord::Schema.define(version: 2021_05_07_150831) do
   add_foreign_key "accounts", "users", column: "owner_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "api_tokens", "users"
+  add_foreign_key "line_items", "orders"
+  add_foreign_key "orders", "accounts"
+  add_foreign_key "products", "streams"
   add_foreign_key "streams", "accounts"
   add_foreign_key "tickets", "streams"
   add_foreign_key "tickets", "users"
