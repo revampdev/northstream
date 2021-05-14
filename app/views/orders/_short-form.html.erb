@@ -4,9 +4,10 @@
   <%= form.hidden_field :amount, value: amount %>
   <%= form.hidden_field :product_name, value: name %>
   <%= form.hidden_field :stream_slug, value: slug %>
+  <h4 class="text-center"><%= name %></h4>
   <div class="flex align-middle">
-    <%= form.label :qyantity, "Qty" %>
+    <%= form.label :qyantity, "Qty", class: "block my-auto mx-4"%>
     <%= form.select :quantity, [1,2,3,4], class: "block mx-4"%>
-    <%= form.button name, class: "btn btn-primary mx-4" %>
+    <%= form.button "Purchase", class: "btn btn-primary mx-4" %>
   </div>
 <% end %>
