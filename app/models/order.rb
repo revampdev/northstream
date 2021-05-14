@@ -26,7 +26,7 @@ class Order < ApplicationRecord
         allowed_countries: ["US"]
       },
       customer_email: user.email,
-      shipping_rates: ["shr_1IqjffDFjH2WLcaL5S19cGKf", "shr_1Ir7egDFjH2WLcaLszVYY8i3"],
+      shipping_rates: ["shr_1IqjffDFjH2WLcaL5S19cGKf"],
       client_reference_id: user.id,
       line_items: [
         {
