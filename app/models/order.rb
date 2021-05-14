@@ -47,7 +47,8 @@ class Order < ApplicationRecord
             product_data: {
               name: "Processing Fee"
             }
-          }
+          },
+          quantity: 1
         }
       ],
       mode: "payment",

@@ -74,7 +74,7 @@
   <%# <%= link_to 'Purchase Ticket', new_ticket_path, stream: @stream, amount: @stream.price %>
 </div>
 </div>
-<% if @admissible || @stream.free_stream %>
+<% if @admissible %>
   <script>
     document.addEventListener('turbo:load', () => {
       const videoContainer = document.querySelector('#video')
