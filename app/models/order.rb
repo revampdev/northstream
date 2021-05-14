@@ -64,7 +64,7 @@ class Order < ApplicationRecord
   end
 
   def self.admin_fee(amount)
-    fee = (amount * 1.05)
+    fee = (amount * 0.05)
     dollars_to_cents(fee)
   end
 end
