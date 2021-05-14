@@ -26,7 +26,7 @@ class Order < ApplicationRecord
         allowed_countries: ["US"]
       },
       customer_email: user.email,
-      shipping_rates: ["shr_1IqjffDFjH2WLcaL5S19cGKf"],
+      shipping_rates: ["shr_1IqjffDFjH2WLcaL5S19cGKf", "shr_1Ir7egDFjH2WLcaLszVYY8i3"],
       client_reference_id: user.id,
       line_items: [
         {
@@ -39,6 +39,15 @@ class Order < ApplicationRecord
           },
           tax_rates: ["txr_1IqjehDFjH2WLcaLCxQUAJ23"],
           quantity: order.line_items.first.quantity
+        },
+        {
+          price_data: {
+            unit_amount: admin_fee(order.line_items.first.amount),
+            currency: "usd",
+            product_data: {
+              name: "Processing Fee"
+            }
+          }
         }
       ],
       mode: "payment",
@@ -51,5 +60,10 @@ class Order < ApplicationRecord
 
   def self.dollars_to_cents(amount)
     (100 * amount.to_r).to_i
+  end
+
+  def self.admin_fee(amount)
+    fee = (amount * 1.05)
+    dollars_to_cents(fee)
   end
 end
