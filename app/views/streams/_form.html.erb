@@ -5,6 +5,10 @@
     <%= form.text_field :name, class: "form-control" %>
   </div>
   <div class="form-group">
+    <%= form.label :free_stream, "Is this a Free Stream?" %>
+    <%= form.check_box :free_stream %>
+  </div>
+  <div class="form-group">
     <%= form.label :price %>
     <%= form.number_field :price, class: "form-control" %>
   </div>

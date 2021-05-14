@@ -66,11 +66,15 @@ class StreamsController < ApplicationController
 
   def admissible
     current_stream = set_stream
-    @admissible = current_stream.users.include?(current_user) ? true : false
+    @admissible = if current_stream.users.include?(current_user)
+      true
+    else
+      current_stream.free_stream? ? true : false
+    end
   end
 
   # Only allow a trusted parameter "white list" through.
   def stream_params
-    params.require(:stream).permit(:name, :price, :stream_date, :body, :stream_image)
+    params.require(:stream).permit(:name, :price, :stream_date, :body, :stream_image, :free_stream)
   end
 end

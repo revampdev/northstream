@@ -3,6 +3,7 @@
 # Table name: streams
 #
 #  id               :bigint           not null, primary key
+#  free_stream      :boolean
 #  name             :string
 #  price            :integer
 #  slug             :string
