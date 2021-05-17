@@ -95,3 +95,4 @@ end
 gem "mux_ruby"
 gem "friendly_id", "~> 5.4"
 gem 'aws-sdk-s3', '~> 1.87'
+gem "honeybadger", "~> 4.0"
