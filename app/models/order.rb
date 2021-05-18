@@ -54,7 +54,7 @@ class Order < ApplicationRecord
       ],
       mode: "payment",
       allow_promotion_codes: true,
-      success_url: "https://#{url}#{@domain}/streams/#{stream_name}",
+      success_url: "https://#{url}#{@domain}/streams/#{stream_name}?success=1",
       cancel_url: "https://#{url}#{@domain}/streams/#{stream_name}"
     })
   end

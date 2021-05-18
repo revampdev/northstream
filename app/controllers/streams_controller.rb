@@ -18,6 +18,9 @@ class StreamsController < ApplicationController
   def show
     @ticket = Ticket.new
     @order = Order.new
+    if params[:success] == "1"
+      flash.now[:notice] = "Thank You For Your Purchase! You will receive a confimation email"
+    end
   end
 
   # GET /streams/new
