@@ -20,6 +20,7 @@ class Order < ApplicationRecord
   has_many :line_items, dependent: :destroy
 
   def self.create_session(order, url, stream_name, user)
+    @domain = url.include?(".") ? url : ".northstream.live"
     Stripe::Checkout::Session.create({
       payment_method_types: ["card"],
       shipping_address_collection: {
@@ -53,8 +54,8 @@ class Order < ApplicationRecord
       ],
       mode: "payment",
       allow_promotion_codes: true,
-      success_url: "https://#{url}.northstream.live/streams/#{stream_name}",
-      cancel_url: "https://#{url}.northstream.live/streams/#{stream_name}"
+      success_url: "https://#{url}#{@domain}/streams/#{stream_name}",
+      cancel_url: "https://#{url}#{@domain}/streams/#{stream_name}"
     })
   end
 
