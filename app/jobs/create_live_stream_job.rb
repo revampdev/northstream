@@ -3,7 +3,6 @@ class CreateLiveStreamJob < ApplicationJob
 
   def perform(stream, *_args)
     live_api = MuxRuby::LiveStreamsApi.new
-    playback_ids_api = MuxRuby::PlaybackIDApi.new
 
     create_asset_request = MuxRuby::CreateAssetRequest.new
     create_asset_request.playback_policy = [MuxRuby::PlaybackPolicy::PUBLIC]
