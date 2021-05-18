@@ -29,13 +29,17 @@ class OrdersController < ApplicationController
     @order.account_id = params[:order][:account_id]
     line_items = LineItem.new({name: params[:order][:product_name], amount: params[:order][:amount], quantity: params[:order][:quantity]})
     if @order.save
-      domain = current_tenant.domain.empty? ? current_tenant.subdomain : current_tenant.domain
+      domain = if Rails.env.development?
+        nil
+      else
+        current_tenant.domain.empty? ? current_tenant.subdomain : current_tenant.domain
+      end
       line_items.order_id = @order.id
       line_items.save
       @checkout = Order.create_session(@order, domain, params[:order][:stream_slug], current_user)
       redirect_to checkout_path({session_id: @checkout.id})
     else
-      render stream_path(params[:order][:stream_slug]), status: :unprocessable_entity, alert: "Something went wrong. Please try again."
+      render stream_path(params[:order][:stream_slug]), alert: "Something went wrong. Please try again."
     end
   end
 

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h3>Thank you for your purchase, <%= @user.name %></h3>
+    <p>
+      You have ordered: <%= @line_item.name %> with a quantity of <%= @line_item.quantity %>
+    </p>
+    <p>
+      If you used the Promo code PICKUP, please contact the venue on when you product will be available to pick up.
+    </p>
+    <p>Otherwise, you will receive another email when your product has shipped.</p>
+    <p>Thank you!</p>
+    <p><%= @account.name %></p>
+  </body>
+</html>

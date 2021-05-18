@@ -49,6 +49,7 @@ Rails.application.routes.draw do
       resources :accounts
       resources :users
       resources :notification_tokens, only: :create
+      post "orders/completed", to: "orders#order_completed"
     end
   end
 

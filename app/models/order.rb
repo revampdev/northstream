@@ -20,14 +20,18 @@ class Order < ApplicationRecord
   has_many :line_items, dependent: :destroy
 
   def self.create_session(order, url, stream_name, user)
-    @domain = url.include?(".") ? url : ".northstream.live"
+    @domain = if Rails.env.development?
+      "revamp.ngrok.io"
+    else
+      url.include?(".") ? url : ".northstream.live"
+    end
     Stripe::Checkout::Session.create({
       payment_method_types: ["card"],
       shipping_address_collection: {
         allowed_countries: ["US"]
       },
       customer_email: user.email,
-      shipping_rates: ["shr_1IqjffDFjH2WLcaL5S19cGKf"],
+      shipping_rates: [Rails.application.credentials[:stripe][:shipping_rates]],
       client_reference_id: user.id,
       line_items: [
         {
@@ -38,7 +42,7 @@ class Order < ApplicationRecord
               name: order.line_items.first.name
             }
           },
-          tax_rates: ["txr_1IqjehDFjH2WLcaLCxQUAJ23"],
+          tax_rates: [Rails.application.credentials[:stripe][:tax_rates]],
           quantity: order.line_items.first.quantity
         },
         {
