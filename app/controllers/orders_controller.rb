@@ -35,7 +35,7 @@ class OrdersController < ApplicationController
       @checkout = Order.create_session(@order, domain, params[:order][:stream_slug], current_user)
       redirect_to checkout_path({session_id: @checkout.id})
     else
-      render :new, status: :unprocessable_entity
+      render stream_path(params[:order][:stream_slug]), status: :unprocessable_entity, alert: "Something went wrong. Please try again."
     end
   end
 

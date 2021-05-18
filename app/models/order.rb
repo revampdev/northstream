@@ -52,8 +52,9 @@ class Order < ApplicationRecord
         }
       ],
       mode: "payment",
-      success_url: "https://#{url}/streams/#{stream_name}",
-      cancel_url: "https://#{url}/streams/#{stream_name}"
+      allow_promotion_codes: true,
+      success_url: "https://#{url}.northstream.live/streams/#{stream_name}",
+      cancel_url: "https://#{url}.northstream.live/streams/#{stream_name}"
     })
   end
 
