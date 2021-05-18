@@ -41,4 +41,5 @@ class Stream < ApplicationRecord
   validates :price, presence: true
   validates :stream_date, presence: true
   validates :account, presence: true
+  validates :stream_image, presence: true
 end
