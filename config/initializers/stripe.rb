@@ -7,12 +7,6 @@ module Webhooks
     end
   end
 
-  module CheckoutSuccededExtension
-    def notify_user
-      PurchaseEmailMailer.with(user: current_user, account: current_tenant).thankyou_email.deliver_later
-    end
-  end
-
   module ChargeRefundedExtension
     def notify_user(billable, charge)
       Pay::UserMailer.with(billable: billable, charge: charge).refund.deliver_later
@@ -43,10 +37,6 @@ Rails.application.config.to_prepare do
 
     class Pay::Stripe::Webhooks::SubscriptionRenewing
       prepend Webhooks::SubscriptionRenewingExtension
-    end
-
-    class Pay::Stripe::Webhooks::CheckoutSucceded
-      prepend Webhooks::CheckoutSuccededExtension
     end
   end
 end

@@ -115,6 +115,7 @@ Rails.application.routes.draw do
     get :privacy
     get :pricing
     get :checkout
+    get :checkout_success
   end
 
   post :sudo, to: "users/sudo#create"
